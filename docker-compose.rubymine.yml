@@ -23,30 +23,30 @@ services:
       - .:/usr/src/app
       - ~/.ssh:/root/.ssh:ro
       - bundle-volume:/usr/local/bundle
-#    environment:
-#      - WEBPACKER_DEV_SERVER_HOST=webpacker
+    environment:
+      - WEBPACKER_DEV_SERVER_HOST=webpacker
 #      - REDIS_URL_CACHING=redis://redis:6379/0
 
   app:
     <<: *ror
-#    depends_on:
+    depends_on:
+      - webpacker
 #      - db
 #      - redis
 #      - sidekiq
-#      - webpacker
 
     ports:
       - 1234:1234
 
-#  webpacker:
-#    <<: *ror
-#    environment:
-#      - NODE_ENV=development
-#      - RAILS_ENV=development
-#      - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
-#    command: ./bin/webpack-dev-server
-#    ports:
-#      - 3035:3035
+  webpacker:
+    <<: *ror
+    environment:
+      - NODE_ENV=development
+      - RAILS_ENV=development
+      - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
+    command: ./bin/webpack-dev-server
+    ports:
+      - 3035:3035
 
 #  sidekiq:
 #    <<: *ror
